@@ -1,0 +1,14 @@
+name: My First Workflow
+on:
+    workflow_dispatch:
+
+jobs:
+    show-identity:
+        name: show-identity
+        runs-on:
+            - ubuntu-latest
+        steps:
+            - name: test
+              run: |
+                echo "Hello, I am the runner"
+                whoami
