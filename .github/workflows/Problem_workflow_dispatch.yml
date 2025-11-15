@@ -1,0 +1,34 @@
+name: workflow-dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: env choice 
+        default: "staging"
+        required: true
+        type: choice
+        options:
+            - staging
+            - production
+      run_tests:
+        description: box choice
+        required: true
+        type: boolean
+jobs:
+    job1:
+      name: Unit Testing
+      runs-on:
+        - ubuntu-lates
+      steps:
+        - name: Deploy to Staging
+          if: github.event.inputs.environment == 'staging'
+          run: echo "Deploying to Staging environment..."
+
+        - name: Deploy to production
+          if: github.event.inputs.environment == 'production'
+          run: echo "Deploying to Staging environment..."
+
+        - name: Run unit tests
+          if: github.event.inputs.run_tests == true
+          run: echo "Running tests..."
