@@ -27,9 +27,9 @@ jobs:
             run: ls -la
 
           - name: Deploy to Staging
-            if: github.event.inputs.branch_name == github.event.inputs.target_env
+            if: github.event.inputs.target_env == 'staging'
             run: echo "Deploying branch ${{ github.event.inputs.branch_name }} to STAGING server at ${{ secrets.STAGING_SERVER_IP }}..."
             
           - name: Deploy to Production
-            if: github.event.inputs.branch_name == github.event.inputs.target_env
+            if: github.event.inputs.target_env == 'production'
             run: cho "WARNING! Deploying branch ${{ github.event.inputs.branch_name }} to PRODUCTION server at ${{ secrets.PRODUCTION_SERVER_IP }}..."
