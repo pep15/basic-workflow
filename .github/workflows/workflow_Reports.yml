@@ -1,0 +1,38 @@
+name: Workflow_Reports
+on:
+    workflow_dispatch:
+      inputs:
+         report_name:
+            description: 'Reports'
+            type: string
+            default: "monthly report"
+         report_type:
+            description: 'Type Reports'
+            type: choice
+            options:
+                - Financial
+                - Technical
+                - Administrative
+            default: 'Administrative'
+
+         is_confidential: 
+            description: 'Is the report confidential?'
+            type: boolean
+            default: false
+        
+jobs:
+    generate-report:
+        runs-on: ubuntu-latest
+        steps:
+          - name: print All inputs
+            run: | 
+              echo "${{github.event.inputs.report_name}}"
+              echo "${{github.event.inputs.report_type}}"
+              echo "${{github.event.inputs.is_confidential}}"
+
+          - name: is_confidential
+            if: github.event.inputs.is_confidential == true
+            run:
+              echo "Applying confidential stamp..."
+
+
