@@ -31,5 +31,6 @@ jobs:
           run: echo  "WARNING:Deploying to PRODUCTION!"
 
         - name: Run unit tests
-          if: github.event.inputs.run_tests == true
+          if: github.event.inputs.run_tests == 'true'
           run: echo "Running tests..."
+          
