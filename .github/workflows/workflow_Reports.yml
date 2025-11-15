@@ -31,7 +31,7 @@ jobs:
               echo "${{github.event.inputs.is_confidential}}"
 
           - name: is_confidential
-            if: github.event.inputs.is_confidential == true
+            if: github.event.inputs.is_confidential == 'true'
             run:
               echo "Applying confidential stamp..."
 
