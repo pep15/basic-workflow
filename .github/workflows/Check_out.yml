@@ -1,0 +1,13 @@
+name: checkout
+on:
+    workflow_dispatch:
+        
+jobs:
+     read-the-readme:
+        runs-on: ubuntu-latest
+        steps:
+          - name: check readme
+            uses: actions/checkout@v5
+
+          - name: read line Readme
+            run: cat README.md
