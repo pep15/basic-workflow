@@ -1,0 +1,35 @@
+name: WorkFlow_branch
+
+on:
+    workflow_dispatch:
+        inputs:
+            branch_name:
+              description: 'What is the branch:'
+              type: string
+              default: "main"
+            target_env:
+                description: 'What is the target environment for publishing?'
+                type: choice
+                options:
+                    - staging
+                    - production
+                default: "staging"
+jobs:
+    deploy-branch:
+        runs-on: ubuntu-latest
+        steps:
+          - name: pull the code from the specified branch
+            uses: actions/checkout@v5
+            with:
+                ref: ${{github.event.inputs.branch_name}}
+
+          - name: Display the file
+            run: ls -la
+
+          - name: Deploy to Staging
+            if: github.event.inputs.target_env == 'staging'
+            run: echo "Deploying branch ${{ github.event.inputs.branch_name }} to STAGING server at ${{ secrets.STAGING_SERVER_IP }}..."
+            
+          - name: Deploy to Production
+            if: github.event.inputs.target_env == 'production'
+            run: cho "WARNING! Deploying branch ${{ github.event.inputs.branch_name }} to PRODUCTION server at ${{ secrets.PRODUCTION_SERVER_IP }}..."
