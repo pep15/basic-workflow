@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: env choice 
+        description: 'env choice'
         default: "staging"
         required: true
         type: choice
@@ -12,14 +12,15 @@ on:
             - staging
             - production
       run_tests:
-        description: box choice
+        description: 'Run tests before deploy?'
         required: true
         type: boolean
+        default: true
 jobs:
     job1:
       name: Unit Testing
       runs-on:
-        - ubuntu-lates
+        - ubuntu-latest
       steps:
         - name: Deploy to Staging
           if: github.event.inputs.environment == 'staging'
@@ -27,7 +28,7 @@ jobs:
 
         - name: Deploy to production
           if: github.event.inputs.environment == 'production'
-          run: echo "Deploying to Staging environment..."
+          run: echo  "WARNING:Deploying to PRODUCTION!"
 
         - name: Run unit tests
           if: github.event.inputs.run_tests == true
