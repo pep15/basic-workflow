@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: output for job 2
         run: echo "Hello from Job 2"
+      - name: Making Job 2 Fail
+        run: exit 1
   job-3:
     name: Job 3
     if: github.event.inputs.run-job-3 == 'true'
