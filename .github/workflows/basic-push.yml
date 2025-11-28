@@ -12,4 +12,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           -  name: Push Detected
-             run: echo "Push detected!"
+             run: |
+                echo "Push detected!"
+                echo "Check Ignore Path!"
