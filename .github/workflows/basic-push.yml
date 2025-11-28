@@ -3,7 +3,10 @@ name: Basic Push
 on:
     push:
         branches:
-            'main'
+          - 'main'
+        paths:
+          - 'src/**' 
+
 
 jobs:
 
