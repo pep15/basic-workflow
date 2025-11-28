@@ -1,7 +1,9 @@
 name: Basic Push
 
 on:
-    push
+    push:
+        branches:
+            'main'
 
 jobs:
 
