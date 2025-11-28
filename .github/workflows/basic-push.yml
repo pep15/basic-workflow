@@ -1,0 +1,12 @@
+name: Basic Push
+
+on:
+    push
+
+jobs:
+
+    Push_detected:
+        runs-on: ubuntu-latest
+        steps:
+          -  name: Push Detected
+             run: echo "Push detected!"
