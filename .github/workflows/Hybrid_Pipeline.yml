@@ -45,11 +45,10 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     steps:
       - name: deploy_job
-        if: github.ref == 'refs/heads/main' 
+        if: github.ref != 'refs/heads/main' 
         run: |
           echo "You are trying to deploy the on different branch: " ${{github.ref}}
           echo "Only allow main branch deploy !"
-
       - name: deploy_job
         run: |
           echo "The evn you are: " ${{github.event.inputs.event_target}}
