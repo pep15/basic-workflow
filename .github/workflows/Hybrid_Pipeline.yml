@@ -1,51 +1,57 @@
-name: Hybrid Pipeline
-
+name: Hybrid Pipline
 on:
-    push:
-        branches:
-          - 'main'
-        paths:
-          - 'src/**'
-          - '!src/**.md'
-    workflow_dispatch:
-        inputs:
-            target_events:
-              description: 'Where to deploy?'
-              type: choice
-              options:
-                - staging
-                - production
-              default: 'staging'
-            user_token: 
-                description: 'Enter Password:'
-                type: string
-                required: true
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'src/**'
+      - 'src/**.md'
+  workflow_dispatch:
+    inputs:
+      event_target:
+        description: Choice env
+        type: choice
+        options:
+          - 'staging'
+          - 'production'
+        default: "staging"
+      user_token:
+         description: user enter password
+         type: string
+         required: true
+        
 jobs:
-  test-job:
+  test_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Test Job
-        run: echo "Testing Code..."
-  
-  check-password: 
+      - name: Run Test Job
+        run: echo "job run"
+
+  Check_Paasword:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
     needs: 
-      - test-job
+      - test_job
     env:
-      PASSWORD_FROM_SECRET: ${{ secrets.RUN_PASSWORD }}
+      Paasword: ${{secrets.RUN_PASSWORD}}
     steps:
-      - name: Enter Password
-        if: github.event.inputs.user_token != env.PASSWORD_FROM_SECRET
-        run: echo "WRONG TOKEN! Access denied" && exit 1
+      - name: check Password
+        if: github.event.inputs.user_token != env.Paasword
+        run: echo "your Token not correct !!" && exit 1
 
-  deploy-job:
+  Job_deploy:
     runs-on: ubuntu-latest
-    needs: 
-      - test-job
-      - check-password
-    if: github.ref == 'refs/heads/main'
+    needs: [test_job, Check_Paasword]
+    if: github.event_name == 'workflow_dispatch'
     steps:
-      - name: Name events
-        if: github.event_name == 'workflow_dispatch'
-        run: echo "name envirment ${{github.event.inputs.target_events}}"
+      - name: deploy_job
+        if: github.ref != 'refs/heads/main' 
+        run: |
+          echo "You are trying to deploy the on different branch: " ${{github.ref}}
+          echo "Only allow main branch deploy !"
+          exit 1
+      - name: deploy_job
+        run: |
+          echo "The evn you are: " ${{github.event.inputs.event_target}}
+        
+
