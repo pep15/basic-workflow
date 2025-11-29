@@ -49,6 +49,7 @@ jobs:
         run: |
           echo "You are trying to deploy the on different branch: " ${{github.ref}}
           echo "Only allow main branch deploy !"
+          exit 1
       - name: deploy_job
         run: |
           echo "The evn you are: " ${{github.event.inputs.event_target}}
