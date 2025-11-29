@@ -44,7 +44,8 @@ jobs:
     needs: 
       - test-job
       - check-password
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Name events
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch'
         run: echo "name envirment ${{github.event.inputs.target_events}}"
