@@ -37,7 +37,7 @@ jobs:
       Paasword: ${{secrets.RUN_PASSWORD}}
     steps:
       - name: check Password
-        if: github.event.inputs != env.Paasword
+        if: github.event.inputs.user_token != env.Paasword
         run: echo "your Token not correct !!" && exit 1
 
   Job_deploy:
