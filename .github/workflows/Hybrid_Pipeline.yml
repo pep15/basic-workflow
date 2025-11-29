@@ -30,6 +30,8 @@ jobs:
   check-password: 
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
+    needs: 
+      - test-job
     env:
       PASSWORD_FROM_SECRET: ${{ secrets.RUN_PASSWORD }}
     steps:
