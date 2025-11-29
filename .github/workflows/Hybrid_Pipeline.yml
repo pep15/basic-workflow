@@ -5,7 +5,7 @@ on:
       - 'main'
     paths:
       - 'src/**'
-      - 'src/**.md'
+      - '!src/**.md'
   workflow_dispatch:
     inputs:
       event_target:
