@@ -1,0 +1,17 @@
+name: Basic Push
+
+on:
+    push:
+        branches:
+          - 'main'
+        paths-ignore:
+          - 'README.md' 
+jobs:
+
+    Push_detected:
+        runs-on: ubuntu-latest
+        steps:
+          -  name: Push Detected
+             run: |
+                echo "Push detected!"
+                echo "Check Ignore Path!"

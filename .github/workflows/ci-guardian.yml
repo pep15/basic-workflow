@@ -1,0 +1,16 @@
+name: ci-guardian
+
+on:
+    push:
+        branches:
+          - 'main'
+        paths:
+          - 'src/**'
+          - '!**.md'
+
+jobs:
+    ci-guardian:
+        runs-on: ubuntu-latest
+        steps:
+          - name: project
+            run: echo "Guardian is active Critical code changed on Main branch."

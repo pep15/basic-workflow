@@ -1,0 +1,50 @@
+name: Hybrid Pipeline
+
+on:
+    push:
+        branches:
+          - 'main'
+        paths:
+          - 'src/**'
+          - '!src/**.md'
+    workflow_dispatch:
+        inputs:
+            target_events:
+              description: 'Where to deploy?'
+              type: choice
+              options:
+                - staging
+                - production
+              default: 'staging'
+            user_token: 
+                description: 'Enter Password:'
+                type: string
+                required: true
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Job
+        run: echo "Testing Code..."
+  
+  check-password: 
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    needs: 
+      - test-job
+    env:
+      PASSWORD_FROM_SECRET: ${{ secrets.RUN_PASSWORD }}
+    steps:
+      - name: Enter Password
+        if: github.event.inputs.user_token != env.PASSWORD_FROM_SECRET
+        run: echo "WRONG TOKEN! Access denied" && exit 1
+
+  deploy-job:
+    runs-on: ubuntu-latest
+    needs: 
+      - test-job
+      - check-password
+    steps:
+      - name: Name events
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        run: echo "name envirment ${{github.event.inputs.target_events}}"

@@ -1,0 +1,17 @@
+name: Precision Guardian
+
+on:
+    push:
+        branches:
+          - 'main'
+        paths:
+          - 'src/**'
+          - '!src/**.md'
+jobs:
+    Precision_Guardian:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Precision Guardian
+            run: | 
+             echo "SECURITY CHECK: Critical code in SRC changed (ignoring markdown)."
+
