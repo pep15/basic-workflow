@@ -1,5 +1,4 @@
 name: Hybrid Pipline
-
 on:
   push:
     branches:
@@ -43,9 +42,16 @@ jobs:
   Job_deploy:
     runs-on: ubuntu-latest
     needs: [test_job, Check_Paasword]
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: deploy_job
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' 
+        run: |
+          echo "You are trying to deploy the on different branch: " ${{github.ref}}
+          echo "Only allow main branch deploy !"
+
+      - name: deploy_job
         run: |
           echo "The evn you are: " ${{github.event.inputs.event_target}}
-          
+        
+
