@@ -10,6 +10,6 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Run Test Job
-          run: echo "Checking the new code... Wait!""
+          run: echo "Checking the new code... Wait!"
 
 
