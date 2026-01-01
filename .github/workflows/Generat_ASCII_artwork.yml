@@ -10,18 +10,13 @@ jobs:
           - name: Repo CheckOut
             uses: actions/checkout@v6
 
-          - name: Install Cowsay Program
-            run: sudo apt-get install cowsay -y
-
-          - name: Excute Cowsay Program
-            run: cowsay -f dragon "Run for conver, I am DRAGON...RAWR" >> dragon.txt
-
-          - name: Test File find
-            run: grep -i "dragon" dragon.txt
-
-          - name: Read File
-            run: cat dragon.txt
-
           - name: Checkout Repo lsit
             run: ls
+
+          - name: Runs_Shell With Permission 
+            run: | 
+             chmod +x script_ascii.sh
+              ./script_ascii.sh
+
+          
             
