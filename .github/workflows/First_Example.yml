@@ -1,0 +1,20 @@
+name: First_Example
+
+on:
+    push:
+
+jobs:
+    First_job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: CheckOut
+              uses: actions/checkout@v6
+              
+            - name: Wolcom massage
+              run: echo "My FirstName GitHub Actions job"
+            
+            - name: List file
+              run: ls -la
+            
+            - name: Read Read.md
+              run: cat README.md
