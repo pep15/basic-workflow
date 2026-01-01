@@ -13,30 +13,42 @@ jobs:
           - name: Execute Cowsay job
             run: cowsay -f dragon "Run for conver, I am DRAGON...RAWR" >> dragon.txt
 
-          - name: sleep for 30 secound
-            run: sleep 30
+          - name: Upload file
+            uses: actions/upload-artifact@v4
+            with:
+                name: Dragon Text file
+                path: dragon.txt
 
     Test_job_2:
           runs-on: ubuntu-latest
           needs: 
             - Build_job_1
           steps:
-            - name: sleep for 10 secound
-              run: sleep 10
+          - name: Upload file
+            uses: actions/download-artifact@v5
+            with:
+                name: Dragon Text file
+                path: dragon.txt
 
-            - name: Test Find File
-              run: grep -i "dragon" dragon.txt
+          - name: Test Find File
+            run: grep -i "dragon" dragon.txt
 
     Deploy_Job_3:
         runs-on: ubuntu-latest
         needs: 
             - Test_job_2
         steps:
-            - name: Read File
-              run: cat dragon.txt
+          - name: Upload file
+            uses: actions/download-artifact@v5
+            with:
+                name: Dragon Text file
+                path: dragon.txt
 
-            - name: Deploy
-              run: echo "Deploying... ..."
+          - name: Read File
+            run: cat dragon.txt
+
+          - name: Deploy
+            run: echo "Deploying... ..."
 
          
 
