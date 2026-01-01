@@ -10,11 +10,15 @@ jobs:
             - name: CheckOut
               uses: actions/checkout@v6
               
-            - name: Wolcom massage
-              run: echo "My FirstName GitHub Actions job"
+            - name: List and Read
+              run: |
+                echo "My FirstName GitHub Actions job"
+                ls -la
+                cat README.md
+
             
-            - name: List file
-              run: ls -la
+            - name: Generet Drow Digital
+              run: cowsay -f dragon "Run for conver, I am DRAGON...RAWR" >> dragon.txt
             
-            - name: Read Read.md
-              run: cat README.md
+            # - name: Read Read.md
+            #   run: 
