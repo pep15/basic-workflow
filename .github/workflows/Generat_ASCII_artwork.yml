@@ -4,19 +4,37 @@ on:
     push:
 
 jobs:
-    ascii_job:
+    Build_job_1:
         runs-on: ubuntu-latest
         steps:
-          - name: Repo CheckOut
-            uses: actions/checkout@v6
+          - name: Install Cowsay program
+            run: sudo apt-get install cowsay -y
 
-          - name: Checkout Repo lsit
-            run: ls
+          - name: Execute Cowsay job
+            run: cowsay -f dragon "Run for conver, I am DRAGON...RAWR" >> dragon.txt
 
-          - name: Runs_Shell With Permission 
-            run: | 
-             chmod +x script_ascii.sh
-              ./script_ascii.sh
+          - name: sleep for 30 secound
+            run: sleep 30
+
+    Test_job_2:
+          runs-on: ubuntu-latest
+          steps:
+            - name: sleep for 10 secound
+              run: sleep 10
+
+            - name: Test Find File
+              run: grep -i "dragon" dragon.txt
+
+    Deploy_Job_3:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Read File
+              run: cat dragon.txt
+              
+            - name: Deploy
+              run: echo "Deploying... ..."
+
+         
 
           
             
