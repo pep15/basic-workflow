@@ -18,6 +18,8 @@ jobs:
 
     Test_job_2:
           runs-on: ubuntu-latest
+          needs: 
+            - Build_job_1
           steps:
             - name: sleep for 10 secound
               run: sleep 10
@@ -27,10 +29,12 @@ jobs:
 
     Deploy_Job_3:
         runs-on: ubuntu-latest
+        needs: 
+            - Test_job_2
         steps:
             - name: Read File
               run: cat dragon.txt
-              
+
             - name: Deploy
               run: echo "Deploying... ..."
 
