@@ -29,31 +29,3 @@ jobs:
         env:
           Secret_CONTEXT: ${{ toJson(secrets) }}
         run: echo "$Secret_CONTEXT"
-
-  Docker:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Docker Build
-        run: echo docker build -t ${{env.CONTAINER_REGISTRY}}/$DOCKER_USERNAME/${{vars.IMAGE_NAME}}
-
-      - name: Docker Login
-        env:
-          DOCKER_PASSWORD: 1234
-        run: echo docker login --username=${{vars.DOCKER_USERNAME}} --password=${{secrets.DOCKER_PASSWORD}}
-
-      - name: Docker push
-        run: echo docker push $CONTAINER_REGISTRY/${{vars.DOCKER_USERNAME}}/$IMAGE_NAME:latest
-  Deploy:
-    needs: 
-      - Docker
-    concurrency:
-      group: Prouduction-deploymnt
-      cancel-in-progress: false 
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy Container
-        timeout-minutes: 1 
-        run: |
-          echo docker run -d -p 8080:8080 $CONTAINER_REGISTRY/${{vars.DOCKER_USERNAME}}/$IMAGE_NAME:latest
-          sleep 600s
