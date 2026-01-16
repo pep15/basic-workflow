@@ -24,7 +24,7 @@ jobs:
         runs-on: ubuntu-latest
         concurrency:
           group: Production_Debugging
-          cancel-in-progress: false
+          cancel-in-progress: true
         steps:
             - name: Step 1 view workflow runs
               run: |
@@ -71,7 +71,7 @@ jobs:
 
           - name: Unzip file Debug.zip
             run: | 
-              unzip Debug.zip
+              unzip debuug.zip
               ls -la
 
 
