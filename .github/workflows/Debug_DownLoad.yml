@@ -1,0 +1,85 @@
+name: Debugging DownLoad
+
+on:
+    workflow_dispatch:
+    push:
+jobs:
+    ViewDebugForworkflowjobs:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Step 1 Check Repo
+          uses: actions/checkout@v4
+
+        - name: Step 2 view workflow jobs
+          run: |
+           curl -Lk \
+           -H "Accept: application/vnd.github+json" \
+           -H "Authorization: Bearer ${{secrets.API_REPORTS}}" \
+           -H "X-GitHub-Api-Version: 2022-11-28" \
+           https://api.github.com/repos/pep15/basic-workflow/actions/jobs/21075610608
+
+    ViewDebugForworkflowruns:
+        needs: 
+          - ViewDebugForworkflowjobs 
+        runs-on: ubuntu-latest
+        concurrency:
+          group: Production_Debugging
+          cancel-in-progress: false
+        steps:
+            - name: Step 1 view workflow runs
+              run: |
+                curl -Lk \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer ${{secrets.API_REPORTS}}" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                https://api.github.com/repos/pep15/basic-workflow/actions/jobs/60616569816/logs
+
+    DownloadAndUploadArchiveDebugForworkflowruns:
+        runs-on: ubuntu-latest
+        needs: ViewDebugForworkflowruns
+        steps:
+            - name: Step 1 Check Repo
+              uses: actions/checkout@v4
+
+            - name: Download Archive debug run
+              run: |
+                curl -Lk \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer ${{secrets.API_REPORTS}}" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                https://api.github.com/repos/pep15/basic-workflow/actions/runs/21075610608/logs -o debuug.zip
+            
+            - name: Upload Archive debug debuug.zip
+              uses: actions/upload-artifact@v4
+              with:
+                name: debugging-zip-file
+                path: debuug.zip
+    DownLoadArchiveDebugForworkflowruns:
+        runs-on: ubuntu-latest
+        needs: 
+          - DownloadAndUploadArchiveDebugForworkflowruns
+        steps:
+          - name: Step 1 Check Repo
+            uses: actions/checkout@v4
+
+          - name: Download Archive debug.zip
+            uses: actions/download-artifact@v5
+            with:
+              name: debugging-zip-file
+          - name: Display structure of downloaded files
+            run: ls -R
+
+          - name: Unzip file Debug.zip
+            run: | 
+              unzip Debug.zip
+              ls -la
+
+
+
+            
+    
+
+
+
+
+    
